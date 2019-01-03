@@ -1,12 +1,14 @@
 package ua.bondarenkojek;
 
 import ua.bondarenkojek.model.Patient;
+import ua.bondarenkojek.model.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.HashSet;
 
 public class Main {
     private static EntityManager entityManager;
@@ -15,42 +17,46 @@ public class Main {
         EntityManagerFactory entityManagerFactory = Persistence
                 .createEntityManagerFactory("PatientPU");
         entityManager = entityManagerFactory.createEntityManager();
-//        Patient patient = createPatient("Bob", "Bobik");
-        System.out.println(getPatientByName("Bob"));
+//        Patient patient = Patient
+//                .builder()
+//                .name("Bob")
+//                .lastName("Bobsky")
+//                .date(LocalDate.of(1990, 1, 7))
+//                .tests(new HashSet<>())
+//                .build();
+//
+//        Test test1 = Test
+//                .builder()
+//                .name("First Test")
+//                .date(LocalDate.of(2019, 1, 1))
+//                .build();
+//
+//        Test test2 = Test
+//                .builder()
+//                .name("Second Test")
+//                .date(LocalDate.of(2019, 1, 2))
+//                .build();
+//
+//        patient.addTest(test1);
+//        patient.addTest(test2);
+//
+//        createPatient(patient);
+
+//        System.out.println(getPatientByName("Bob"));
 
 //        Patient patient = getPatient(1);
 //
 //        System.out.println(patient);
 
-//        updatePatient(Patient.builder()
-//                .id(1)
-//                .name("Bobie")
-//                .lastName("Last")
-//                .date(new Date())
-//                .build());
-
-
-//        Patient.builder()
-//                .name("Bob")
-//                .lastName("LastBobName");
-
 //        Patient patient = deletePatient(1);
 //        System.out.println(patient);
     }
 
-    public static Patient createPatient(String name, String lastName) {
-        Date dateOfBirth = new Date();
+    public static void createPatient(Patient patient) {
         entityManager.getTransaction().begin();
-        Patient patient = Patient.builder()
-                .name(name)
-                .lastName(lastName)
-                .date(dateOfBirth)
-                .build();
-
         entityManager.persist(patient);
         entityManager.flush();
         entityManager.getTransaction().commit();
-        return patient;
     }
 
     public static Patient getPatient(long id) {
