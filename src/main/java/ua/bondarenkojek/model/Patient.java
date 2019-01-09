@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -21,9 +23,10 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "patient")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Patient {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "patient_id")
     private long id;
     @Column(name = "name")
@@ -31,10 +34,16 @@ public class Patient {
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "date_of_birth")
-    private LocalDate date;
+    private LocalDate dateOfBirth;
     @Column(name = "test")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Test> tests;
+
+    public Patient(String name, String lastName, LocalDate dateOfBirth) {
+        this.name = name;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+    }
 
     public void addTest(Test test) {
         if (tests == null) {

@@ -1,6 +1,7 @@
 package ua.bondarenkojek;
 
 import ua.bondarenkojek.model.Patient;
+import ua.bondarenkojek.model.SuperPatient;
 import ua.bondarenkojek.model.Test;
 
 import javax.persistence.EntityManager;
@@ -17,13 +18,18 @@ public class Main {
         EntityManagerFactory entityManagerFactory = Persistence
                 .createEntityManagerFactory("PatientPU");
         entityManager = entityManagerFactory.createEntityManager();
+
+//        Patient patient =
+//                new SuperPatient("Bob", "Bobsky", LocalDate.of(1992, 2, 1),"super");
+//        createPatient(patient);
 //        Patient patient = Patient
 //                .builder()
 //                .name("Bob")
 //                .lastName("Bobsky")
-//                .date(LocalDate.of(1990, 1, 7))
+//                .dateOfBirth(LocalDate.of(1990, 1, 7))
 //                .tests(new HashSet<>())
 //                .build();
+//        createPatient(patient);
 //
 //        Test test1 = Test
 //                .builder()
@@ -42,7 +48,7 @@ public class Main {
 //
 //        createPatient(patient);
 
-//        System.out.println(getPatientByName("Bob"));
+        System.out.println(getPatientByName("Bob"));
 
 //        Patient patient = getPatient(1);
 //
@@ -50,9 +56,18 @@ public class Main {
 
 //        Patient patient = deletePatient(1);
 //        System.out.println(patient);
+
+//        deletePatient(1);
     }
 
     public static void createPatient(Patient patient) {
+        entityManager.getTransaction().begin();
+        entityManager.persist(patient);
+        entityManager.flush();
+        entityManager.getTransaction().commit();
+    }
+
+    public static void createPatient(SuperPatient patient) {
         entityManager.getTransaction().begin();
         entityManager.persist(patient);
         entityManager.flush();
